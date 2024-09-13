@@ -64,16 +64,18 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
       return;
     }
     const fileExtension = programmingLanguages[language] || ".file";
-    const suggestedFileName = `file-${generateRandomString(
-      3,
-      true,
-    )}${fileExtension}`;
-    const fileName = window.prompt("Enter file name" || "", suggestedFileName);
+    const suggestedFileName = `file-${generateRandomString(3, true)}${fileExtension}`;
+    
+    // Corrected the prompt logic
+    const fileName = window.prompt("Enter file name", suggestedFileName);
 
     if (!fileName) {
-      // User pressed cancel on prompt.
+      // User pressed cancel or entered an empty string.
       return;
     }
+    // Proceed with download...
+  };
+});
 
     const blob = new Blob([value], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
