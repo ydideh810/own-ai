@@ -77,17 +77,28 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
   };
 });
 
-    const blob = new Blob([value], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.download = fileName;
-    link.href = url;
-    link.style.display = "none";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  };
+    
+const downloadAsFile = (fileName: string, value: string) => {
+  if (!fileName || !value) {
+    console.error("File name or content is missing.");
+    return;
+  }
+
+  const blob = new Blob([value], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.download = fileName;
+  link.href = url;
+  link.style.display = "none";
+  document.body.appendChild(link);
+
+  link.click();
+
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
+
 
   const onCopy = () => {
     if (isCopied) return;
