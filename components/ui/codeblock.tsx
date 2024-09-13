@@ -59,27 +59,6 @@ export const generateRandomString = (length: number, lowercase = false) => {
 const CodeBlock: FC<Props> = memo(({ language, value }) => {
   const { isCopied, copyToClipboard } = useCopyToClipboard({ timeout: 2000 });
 
-  const downloadAsFile = () => {
-    if (typeof window === "undefined") {
-      return;
-    }
-    const fileExtension = programmingLanguages[language] || ".file";
-    const suggestedFileName = `file-${generateRandomString(3, true)}${fileExtension}`;
-    
-    // Corrected the prompt logic
-    const fileName = window.prompt("Enter file name", suggestedFileName);
-
-    if (!fileName) {
-      // User pressed cancel or entered an empty string.
-      return;
-    }
-    // Proceed with download...
-  };
-});
-
-    
-
-
   const downloadAsFile = (fileName: string, value: string) => {
     if (!fileName || !value) {
       console.error("File name or content is missing.");
