@@ -78,32 +78,37 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
 });
 
     
-const downloadAsFile = (fileName: string, value: string) => {
-  if (!fileName || !value) {
-    console.error("File name or content is missing.");
-    return;
-  }
+const CodeBlock: FC<Props> = memo(({ language, value }) => {
+  const { isCopied, copyToClipboard } = useCopyToClipboard({ timeout: 2000 });
 
-  const blob = new Blob([value], { type: "text/plain" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
+  const downloadAsFile = (fileName: string, value: string) => {
+    if (!fileName || !value) {
+      console.error("File name or content is missing.");
+      return;
+    }
 
-  link.download = fileName;
-  link.href = url;
-  link.style.display = "none";
-  document.body.appendChild(link);
+    const blob = new Blob([value], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
 
-  link.click();
+    link.download = fileName;
+    link.href = url;
+    link.style.display = "none";
+    document.body.appendChild(link);
 
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-};
+    link.click();
 
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
 
   const onCopy = () => {
     if (isCopied) return;
     copyToClipboard(value);
   };
+
+  // Generate the default file name
+  const defaultFileName = `file-${language || 'code'}.txt`;
 
   return (
     <div className="codeblock relative w-full bg-zinc-950 font-sans">
@@ -113,7 +118,7 @@ const downloadAsFile = (fileName: string, value: string) => {
           <Button
             variant="ghost"
             className="hover:bg-zinc-800 focus-visible:ring-1 focus-visible:ring-slate-700 focus-visible:ring-offset-0"
-            onClick={downloadAsFile}
+            onClick={() => downloadAsFile(defaultFileName, value)} // Pass the file name and content
             size="icon"
           >
             <IconDownload />
