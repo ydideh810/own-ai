@@ -78,8 +78,7 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
 });
 
     
-const CodeBlock: FC<Props> = memo(({ language, value }) => {
-  const { isCopied, copyToClipboard } = useCopyToClipboard({ timeout: 2000 });
+
 
   const downloadAsFile = (fileName: string, value: string) => {
     if (!fileName || !value) {
