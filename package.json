@@ -15,6 +15,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && prisma db push --accept-data-loss && next build",
+    "postinstall": "prisma generate",
     "start": "next start",
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
